@@ -1,0 +1,37 @@
+
+<!--outershell?-->
+<!--use as baseline for mod dev--> 
+<head>
+
+</head>
+<body>
+  <b>test</b>
+  <input type="checkbox" name="attr_use_specfont" value="1+" class="accessible noshow" role="presentation" />
+  <b>another test</b>
+</body>
+<script type="text/worker">
+  const int = score => parseInt(score, 10) || 0;
+  
+  const stats = ["str", "dex", "con", "wis", "int", "cha"];
+  stats.forEach(stat => {
+      on(`change:${stat}`, () => {
+          getAttrs([stat], values => {
+              const stat_base = int(values[stat]);
+              //console.log(stat_base);
+              let stat_mod = 0;
+              if (stat_base >= 19) stat_mod = "+4";
+              else if (stat_base >= 18) stat_mod = "+3";
+              else if (stat_base >= 16) stat_mod = "+2";
+              else if (stat_base >= 14) stat_mod = "+1";
+              else if (stat_base >= 12) stat_mod = "+0";
+              else if (stat_base >= 8) stat_mod = "-1";
+              else if (stat_base >= 6) stat_mod = "-2";
+              else stat_mod = "-3";
+              
+              setAttrs({
+                  [`${stat}_mod`]: stat_mod
+              });
+          });
+      });
+  });
+  </script>
